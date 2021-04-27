@@ -46,4 +46,22 @@ public class UserDAO {
 		}
 		return -2; //데이터 베이스 오류
 	}
+	
+	//한명의 사용자를 입력 받을 수 있도록 한다.(회원가입)
+	public int join(User user) {
+		String SQL = "INSERT INTO MEMBER VALUES (?,?,?,?,?)";
+		try {
+			pstmt = conn.prepareStatement(SQL); //데이터베이스에 삽입하는 형식으로 가져오기
+			pstmt.setString(1, user.getUserID()); //1번째 ?에 들어가는 값으로 매개변수로 받은 userID을 삽입
+			pstmt.setString(2, user.getUserPassword()); //2번째 ?에 들어가는 값으로 매개변수로 받은 userPassword을 삽입
+			pstmt.setString(3, user.getUserName()); //3번째 ?에 들어가는 값으로 매개변수로 받은 userName을 삽입
+			pstmt.setString(4, user.getUserGender()); //4번째 ?에 들어가는 값으로 매개변수로 받은 userGender을 삽입
+			pstmt.setString(5, user.getUserEmail()); //5번째 ?에 들어가는 값으로 매개변수로 받은 userEmail을 삽입
+			return pstmt.executeUpdate(); //sql에 실행한 결과를 넣어준다.
+			//INSERT 라는 문장을 실행한 경우는 반드시 0이상의 숫자가 반환되기 떄문에 -1이 아닌경우는 성공적으로 회원가입이 이루어진것 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1; //데이터베이스 오류
+	}
 }
