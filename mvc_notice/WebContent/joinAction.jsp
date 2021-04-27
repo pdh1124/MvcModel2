@@ -12,7 +12,17 @@
 <%@ include file="includes/header.jsp"%>
 
 <%
-	
+	String userID = null;
+	if(session.getAttribute("userID") != null) { //세션을 확인해서 세션이 존재하는 회원들은 
+		userID = (String) session.getAttribute("userID"); //String형태로 변환해서 세션에 userID를 담는다.
+	}
+	if (userID != null) { //세션값이 존재 할 경우(로그인이 된 경우)
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('이미 로그인이 되어 있습니다.')");
+		script.println("location.href = 'main.jsp'");
+		script.println("</script>");
+	}
 	//사용자가 입력 안했을 때의 모든 경우의 수를 체크해서
 	if(user.getUserID() == null || user.getUserPassword() == null || user.getUserName() == null 
 	|| user.getUserGender() == null || user.getUserEmail() == null) {
