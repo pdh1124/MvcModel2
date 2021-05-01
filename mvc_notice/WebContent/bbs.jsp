@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <!-- 스크립트 문장을 실행 할 수 있도록 -->
 <%@ page import="java.io.PrintWriter" %>
+<%@ page import="bbs.BbsDAO" %> <!-- BbsDAO.java 연동 -->
+<%@ page import="bbs.Bbs" %> <!-- Bbs.java 연동 -->
+<%@ page import="java.util.ArrayList" %> <!-- 게시판의 목록을 출력하기 위해 가져옴 -->
 <%@ include file="includes/header.jsp"%>
 
 <%
@@ -9,6 +12,12 @@
 	String userID = null;
 	if (session.getAttribute("userID") != null) { //현재 세션이 존재한다면 
 		userID = (String) session.getAttribute("userID");//그 아이디값을 그대로 받아서 관리 할 수 있도록 만듦
+	}
+	//현재 게시판이 몇번째 페이지인지 알기 위해서
+	int pageNumber = 1; //기본페이지(1페이지)
+	if (request.getParameter("pageNumber") != null) { // 파라미터로 pageNumber가 넘어 왔다면
+		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		//pageNumber에 넘어온 페이지의 값을 int값으로 변환해서 담는다.
 	}
 %>
 <!-- 네비게이션 구동 -->	
@@ -74,12 +83,41 @@
 					</tr>
 				</thead>
 				<tbody>
-					<td>1</td>
-					<td>안녕하세요</td>
-					<td>홀길동</td>
-					<td>2021-03-28</td>
+				<%
+					//게시물을 뽑아올 수 있도록 인스턴스 생성
+					BbsDAO bbsDAO = new BbsDAO();
+										
+					//현재의 페이지에서 가져올 리스트
+					ArrayList<Bbs> list = bbsDAO.getList(pageNumber);
+					
+					//가져온 목록을 하나씩 출력
+					for (int i = 0; i < list.size(); i++) {
+				%>	
+					<!-- 게시물의 정보를 하나하나 가져온다 -->
+					<tr>
+						<td><%= list.get(i).getBbsID() %></td>
+						<td><a href="view.jsp/bbs=<%= list.get(i).getBbsID() %>"><%= list.get(i).getBbsTitle() %></a></td>
+						<td><%= list.get(i).getUserID() %></td>
+						<td><%= list.get(i).getBbsDate() %></td>		
+					</tr>
+				<%
+					}
+				%>		
 				</tbody>
 			</table>
+			<%
+				//다음페이지 버튼과 이전페이지 버튼을 만듦
+				if (pageNumber != 1) { //2페이지 이상이라면
+			%>
+					<a href="bbs.jsp?pageNumber=<%=pageNumber-1%>" class="btn btn-success btn-arraw-left">이전</a>
+			<%
+				}
+				if (bbsDAO.nextPage(pageNumber + 1)) { //다음페이지가 존재 한다면
+			%>
+					<a href="bbs.jsp?pageNumber=<%=pageNumber+1%>" class="btn btn-success btn-arraw-right">다음</a>
+			<%
+				}
+			%>
 			<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
 		</div>
 	</div>
