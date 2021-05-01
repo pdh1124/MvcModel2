@@ -123,4 +123,28 @@ public class BbsDAO {
 		}
 		return false; //없다면 다음페이지가 없다.
 	}
+	
+	//하나의 글 내용을 불러오는 함수
+	public Bbs getBbs(int bbsID) { //특정한 게시물아이디의 해당하는 글을 가져온다. 
+		String SQL = "SELECT * FROM BBS WHERE bbsID = ?";
+		//특정 bbsID의 게시물을 가져온다.
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, bbsID);
+			rs = pstmt.executeQuery();	
+			if (rs.next()) { //결과가 나왔다면
+				Bbs bbs = new Bbs(); //bbs라는 인스턴스를 만들어서
+				bbs.setBbsID(rs.getInt(1)); //id,
+				bbs.setBbsTitle(rs.getString(2)); //타이틀,
+				bbs.setUserID(rs.getString(3)); //유저아이디,
+				bbs.setBbsDate(rs.getString(4)); //날짜,
+				bbs.setBbsContent(rs.getString(5)); //내용,
+				bbs.setBbsAvailable(rs.getInt(6)); //삭제여부를 bbs에 담아
+				return bbs; 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null; //결과가 없다면 값이 없다.
+	}
 }
