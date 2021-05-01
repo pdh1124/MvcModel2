@@ -57,7 +57,7 @@
 		} else { //정상적으로 등록 할떄
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
-			script.println("location.href = 'bbs.jsp'"); 
+			script.println("location.href = 'bbs.jsp'");  
 			script.println("</script>");
 		}  
 	}
