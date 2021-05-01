@@ -147,4 +147,34 @@ public class BbsDAO {
 		}
 		return null; //결과가 없다면 값이 없다.
 	}
+	
+	//수정하는 함수
+	public int update(int bbsID, String bbsTitle, String bbsContent) {
+		String SQL = "UPDATE BBS SET bbsTitle=?, bbsContent=? WHERE bbsID = ?";
+		//받은 bbsID의 값이 들어간 게시물 중에서 받은 title,content를 넣어 업데이트를 한다. 
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, bbsTitle);
+			pstmt.setString(2, bbsContent);
+			pstmt.setInt(3, bbsID);
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1; // 데이터베이스 오류
+	}
+	
+	//삭제하는 함수
+	public int delete(int bbsID) {
+		String SQL = "UPDATE BBS SET bbsAvailable=0 WHERE bbsID = ?";
+		//받은 bbsID의 값이 들어간 게시물 중에서 받은 available값을 0으로 만든다. 
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, bbsID); 
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1; // 데이터베이스 오류
+	}
 }
