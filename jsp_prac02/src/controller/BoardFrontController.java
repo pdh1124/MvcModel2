@@ -1,14 +1,15 @@
 package controller;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import action.Action;
 import vo.ActionForward;
 
 
@@ -40,6 +41,33 @@ public class BoardFrontController extends HttpServlet {
 		String command = RequestURI.substring(contextPath.length());
 		
 		ActionForward forward = null;
+		Action action = null;
+		
+		//게시물 등록
+		if(command.equals("/boardWriteForm.bo")) {
+			forward = new ActionForward();
+			forward.setPath("/board/qna_board_write.jsp");
+		}
+		
+		//게시물 쓰기 처리 (boardWritePro.bo)
+		else if(command.equals("boardWritePro.bo")) {
+			action = new BoardWriteProAction();
+			try {
+				forward = action.execute(request, response);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//
+		if(forward != null) {
+			if(forward.isRedirect()) {
+				response.sendRedirect(forward.getPath());
+			} else {
+				RequestDispatcher dispatcher = request.getRequestDispatcher(forward.getPath());
+				dispatcher.forward(request, response);
+			}
+		}
 		
 	}
 	
