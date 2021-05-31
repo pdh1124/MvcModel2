@@ -1,8 +1,11 @@
 package action;
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import service.BoardWriteProService;
 import vo.ActionForward;
 import vo.BoardBean;
 
@@ -20,7 +23,23 @@ public class BoardWriteProAction implements Action {
 		boardBean.setBOARD_SUBJECT(request.getParameter("BOARD_SUBJECT"));
 		boardBean.setBOARD_CONTENT(request.getParameter("BOARD_CONTENT"));
 		
-		return null;
+		BoardWriteProService bo = new BoardWriteProService();
+		boolean isWriteSuccess = bo.registArticle(boardBean);
+		
+		if(!isWriteSuccess) {
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter out = response.getWriter();
+			out.print("<script>");
+			out.print("alert('쓰기실패')");
+			out.print("history.back()");
+			out.print("</script>");
+		} else {
+			forward = new ActionForward();
+			forward.setRedirect(true);
+			forward.setPath("./boardList.bo");
+		}
+		 
+		return forward;
 	}
 
 }

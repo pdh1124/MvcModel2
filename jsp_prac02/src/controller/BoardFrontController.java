@@ -51,7 +51,7 @@ public class BoardFrontController extends HttpServlet {
 		}
 		
 		//게시물 쓰기 처리 (boardWritePro.bo)
-		else if(command.equals("boardWritePro.bo")) {
+		else if(command.equals("/boardWritePro.bo")) {
 			action = new BoardWriteProAction();
 			try {
 				forward = action.execute(request, response);
@@ -68,10 +68,6 @@ public class BoardFrontController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(forward.getPath());
 				dispatcher.forward(request, response);
 			}
-		}
-		
+		}		
 	}
-	
-	
-
 }

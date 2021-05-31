@@ -79,10 +79,10 @@ table {
    border: 1px solid orange;
 }
 
-a:hover{
+a:hover {
    background-color: green;
 }
 
-a{
+a {
    text-decoration: none;
 }
