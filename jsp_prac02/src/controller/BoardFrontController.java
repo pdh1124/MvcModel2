@@ -55,7 +55,7 @@ public class BoardFrontController extends HttpServlet {
 			action = new BoardWriteProAction();
 			try {
 				forward = action.execute(request, response);
-			}catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

@@ -7,7 +7,7 @@
 <title>게시판 샘플</title>
 </head>
 <body>
-	<a href="boardWriterForm.bo">게시판 글쓰기</a><br>
+	<a href="boardWriteForm.bo">게시판 글쓰기</a><br>
 	<a href="boardList.bo">게시판 목록</a>
 </body>
 </html>

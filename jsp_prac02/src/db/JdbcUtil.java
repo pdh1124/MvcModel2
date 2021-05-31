@@ -18,6 +18,7 @@ public class JdbcUtil {
 		DataSource ds = (DataSource) init.lookup("java:comp/env/jdbc/OracleDB");
 		
 		conn = ds.getConnection();
+		conn.setAutoCommit(false);
 		
 		return conn;
 	}

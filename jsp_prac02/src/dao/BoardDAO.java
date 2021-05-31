@@ -52,6 +52,8 @@ public class BoardDAO {
 			pstmt.setInt(7, 0);
 			pstmt.setInt(8, 0);
 			
+			insertCount = pstmt.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
